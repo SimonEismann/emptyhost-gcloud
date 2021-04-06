@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: host-A
+    project: emptyhost-gcloud
+    version: v1
+  name: host-A
+  namespace: default
+spec:
+  minReadySeconds: 10
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: host-A
+      name: host-A
+      project: emptyhost-gcloud
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: host-A
+        name: host-A
+        project: emptyhost-gcloud
+        version: v1
+    spec:
+      containers:
+      - env:
+        - name: Component
+          value: hiwiA
+        - name: IP_B
+          value: host-BC:8080
+        - name: IP_C
+          value: host-BC:8080
+        image: simoneismann/syntheticcomponents
+        imagePullPolicy: Always
+        name: host-A
+        ports:
+        - containerPort: 8080
+          name: health
+      serviceAccountName: host-A
+      nodeSelector:
+        service: host-A
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: host-A
+    name: host-A
+    project: emptyhost-gcloud
+    service: host-A
+  name: host-A
+  namespace: default
+spec:
+  ports:
+  - name: health-host-A
+    port: 8080
+    targetPort: 8080
+  selector:
+    app: host-A
+    project: emptyhost-gcloud
+  type: ClusterIP
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: host-A
+  namespace: default

@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: host-Proxy
+    project: emptyhost-gcloud
+    version: v1
+  name: host-Proxy
+  namespace: default
+spec:
+  minReadySeconds: 10
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: host-Proxy
+      name: host-Proxy
+      project: emptyhost-gcloud
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: host-Proxy
+        name: host-Proxy
+        project: emptyhost-gcloud
+        version: v1
+    spec:
+      containers:
+      - env:
+        - name: Component
+          value: Proxy
+        - name: IP_A
+          value: host-A:8080
+        image: simoneismann/syntheticcomponents
+        imagePullPolicy: Always
+        name: host-Proxy
+        ports:
+        - containerPort: 8080
+          name: health
+      serviceAccountName: host-Proxy
+      nodeSelector:
+        service: host-Proxy
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: host-Proxy
+    name: host-Proxy
+    project: emptyhost-gcloud
+    service: host-Proxy
+  name: host-Proxy
+  namespace: default
+spec:
+  ports:
+  - name: health-host-Proxy
+    port: 8080
+    targetPort: 8080
+  selector:
+    app: host-Proxy
+    project: emptyhost-gcloud
+  type: ClusterIP
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: host-Proxy
+  namespace: default

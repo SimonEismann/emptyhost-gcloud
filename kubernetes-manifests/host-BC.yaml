@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: host-BC
+    project: emptyhost-gcloud
+    version: v1
+  name: host-BC
+  namespace: default
+spec:
+  minReadySeconds: 10
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: host-BC
+      name: host-BC
+      project: emptyhost-gcloud
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: host-BC
+        name: host-BC
+        project: emptyhost-gcloud
+        version: v1
+    spec:
+      containers:
+      - env:
+        - name: Component
+          value: hiwiBC
+        image: simoneismann/syntheticcomponents
+        imagePullPolicy: Always
+        name: host-BC
+        ports:
+        - containerPort: 8080
+          name: health
+      serviceAccountName: host-BC
+      nodeSelector:
+        service: host-BC
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: host-BC
+    name: host-BC
+    project: emptyhost-gcloud
+    service: host-BC
+  name: host-BC
+  namespace: default
+spec:
+  ports:
+  - name: health-host-BC
+    port: 8080
+    targetPort: 8080
+  selector:
+    app: host-BC
+    project: emptyhost-gcloud
+  type: ClusterIP
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: host-BC
+  namespace: default
