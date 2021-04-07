@@ -5,7 +5,7 @@ export ZONE=us-central1-a
 export CLUSTER_NAME=${PROJECT_ID}-1
 export MACHINE_TYPE=n1-standard-4
 
-services=(host-Proxy host-A host-BC)
+services=(host-proxy host-a host-bc)
 LOADS=(const_10 const_20 const_30 const_40 const_50 const_60 const_70 training)
 
 # setup nodes
@@ -27,9 +27,9 @@ echo "waiting for system to boot up... (3 minutes)"
 sleep 180
 
 # prepare settings for loadgenerator
-PROXY_ADDR="http://$(kubectl -n default get service host-Proxy -o jsonpath='{.status.loadBalancer.ingress[0].ip}'):8080/SyntheticComponents/"
-A_ADDR="http://$(kubectl -n default get service host-A -o jsonpath='{.status.loadBalancer.ingress[0].ip}'):8080/SyntheticComponents/"
-BC_ADDR="http://$(kubectl -n default get service host-BC -o jsonpath='{.status.loadBalancer.ingress[0].ip}'):8080/SyntheticComponents/"
+PROXY_ADDR="http://$(kubectl -n default get service host-proxy -o jsonpath='{.status.loadBalancer.ingress[0].ip}'):8080/SyntheticComponents/"
+A_ADDR="http://$(kubectl -n default get service host-a -o jsonpath='{.status.loadBalancer.ingress[0].ip}'):8080/SyntheticComponents/"
+BC_ADDR="http://$(kubectl -n default get service host-bc -o jsonpath='{.status.loadBalancer.ingress[0].ip}'):8080/SyntheticComponents/"
 cp load.lua load_backup.lua
 sed -i "s@PROXYURLPLACEHOLDER@${PROXY_ADDR}indexA@g" load.lua
 LMDAEMON_PORT="22442"

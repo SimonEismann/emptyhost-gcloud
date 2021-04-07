@@ -2,10 +2,10 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: host-BC
+    app: host-bc
     project: emptyhost-gcloud
     version: v1
-  name: host-BC
+  name: host-bc
   namespace: default
 spec:
   minReadySeconds: 10
@@ -13,15 +13,15 @@ spec:
   revisionHistoryLimit: 10
   selector:
     matchLabels:
-      app: host-BC
-      name: host-BC
+      app: host-bc
+      name: host-bc
       project: emptyhost-gcloud
       version: v1
   template:
     metadata:
       labels:
-        app: host-BC
-        name: host-BC
+        app: host-bc
+        name: host-bc
         project: emptyhost-gcloud
         version: v1
     spec:
@@ -31,36 +31,36 @@ spec:
           value: hiwiBC
         image: simoneismann/syntheticcomponents
         imagePullPolicy: Always
-        name: host-BC
+        name: host-bc
         ports:
         - containerPort: 8080
           name: health
-      serviceAccountName: host-BC
+      serviceAccountName: host-bc
       nodeSelector:
-        service: host-BC
+        service: host-bc
 ---
 apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app: host-BC
-    name: host-BC
+    app: host-bc
+    name: host-bc
     project: emptyhost-gcloud
-    service: host-BC
-  name: host-BC
+    service: host-bc
+  name: host-bc
   namespace: default
 spec:
   ports:
-  - name: health-host-BC
+  - name: health-host-bc
     port: 8080
     targetPort: 8080
   selector:
-    app: host-BC
+    app: host-bc
     project: emptyhost-gcloud
   type: ClusterIP
 ---
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: host-BC
+  name: host-bc
   namespace: default
