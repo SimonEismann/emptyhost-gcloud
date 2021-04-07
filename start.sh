@@ -44,13 +44,13 @@ do
 	pkill -f 'java -jar'
 	# saving logs
 	mkdir logs/${LOAD}
-	curl "${A_ADDR}extB" -o logs/${LOAD}/B.csv
-	curl "${A_ADDR}extC" -o logs/${LOAD}/C.csv
-	curl "${PROXY_ADDR}extA" -o logs/${LOAD}/A.csv
+	curl ${A_ADDR}extB -o logs/${LOAD}/B.csv
+	curl ${A_ADDR}extC -o logs/${LOAD}/C.csv
+	curl ${PROXY_ADDR}extA -o logs/${LOAD}/A.csv
 	# reset components
-	curl "${PROXY_ADDR}reset"
-	curl "${A_ADDR}reset"
-	curl "${BC_ADDR}reset"
+	curl ${PROXY_ADDR}reset
+	curl ${A_ADDR}reset
+	curl ${BC_ADDR}reset
 	echo "finished experiment ${LOAD}."
 done
 
