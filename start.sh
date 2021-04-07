@@ -3,7 +3,7 @@
 export PROJECT_ID=`gcloud config get-value project`
 export ZONE=us-central1-a
 export CLUSTER_NAME=${PROJECT_ID}-1
-export MACHINE_TYPE=n1-standard-4
+export MACHINE_TYPE=n1-standard-1
 
 services=(host-proxy host-a host-bc)
 LOADS=(const_10 const_20 const_30 const_40 const_50 const_60 const_70 training)
@@ -22,19 +22,23 @@ do
 	IP_LIST+=($NODE_IP)
 done
 kubectl apply -f ./kubernetes-manifests	# deploys specially prepared delays
-kubectl get pods -o wide	# show deployment of pods for verification
 echo "waiting for system to boot up... (3 minutes)"
 sleep 180
+kubectl get pods -o wide	# show deployment of pods for verification
 
 # prepare settings for loadgenerator
-PROXY_ADDR="http://$(kubectl -n default get service host-proxy -o jsonpath='{.status.loadBalancer.ingress[0].ip}'):8080/SyntheticComponents/"
-A_ADDR="http://$(kubectl -n default get service host-a -o jsonpath='{.status.loadBalancer.ingress[0].ip}'):8080/SyntheticComponents/"
-BC_ADDR="http://$(kubectl -n default get service host-bc -o jsonpath='{.status.loadBalancer.ingress[0].ip}'):8080/SyntheticComponents/"
+PROXY_ADDR="http://${IP_LIST[0]}:8080/SyntheticComponents/"
+A_ADDR="http://${IP_LIST[1]}:8080/SyntheticComponents/"
+BC_ADDR="http://${IP_LIST[2]}:8080/SyntheticComponents/"
 cp load.lua load_backup.lua
 sed -i "s@PROXYURLPLACEHOLDER@${PROXY_ADDR}indexA@g" load.lua
 LMDAEMON_PORT="22442"
 IP_STRING=""
 for ip in "${IP_LIST[@]}"; do IP_STRING+="${ip}:${LMDAEMON_PORT}," ; done
+echo "PROXY_ADDR: ${PROXY_ADDR}"
+echo "A_ADDR: ${A_ADDR}"
+echo "BC_ADDR: ${BC_ADDR}"
+echo "IP STRING: ${IP_STRING}"
 
 # execute measurements for all loads
 for LOAD in ${LOADS}
