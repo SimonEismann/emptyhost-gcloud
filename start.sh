@@ -27,9 +27,9 @@ sleep 180
 kubectl get pods -o wide	# show deployment of pods for verification
 
 # prepare settings for loadgenerator
-PROXY_ADDR="http://${IP_LIST[0]}:8080/SyntheticComponents/"
-A_ADDR="http://${IP_LIST[1]}:8080/SyntheticComponents/"
-BC_ADDR="http://${IP_LIST[2]}:8080/SyntheticComponents/"
+PROXY_ADDR="http://$(kubectl -n default get service host-proxy -o jsonpath='{.status.loadBalancer.ingress[0].ip}'):8080/SyntheticComponents/"
+A_ADDR="http://$(kubectl -n default get service host-a -o jsonpath='{.status.loadBalancer.ingress[0].ip}'):8080/SyntheticComponents/"
+BC_ADDR="http://$(kubectl -n default get service host-bc -o jsonpath='{.status.loadBalancer.ingress[0].ip}'):8080/SyntheticComponents/"
 cp load.lua load_backup.lua
 sed -i "s@PROXYURLPLACEHOLDER@${PROXY_ADDR}indexA@g" load.lua
 LMDAEMON_PORT="22442"

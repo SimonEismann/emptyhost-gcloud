@@ -59,7 +59,7 @@ spec:
   selector:
     app: host-proxy
     project: emptyhost-gcloud
-  type: ClusterIP
+  type: LoadBalancer
 ---
 apiVersion: v1
 kind: ServiceAccount

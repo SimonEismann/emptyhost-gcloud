@@ -57,7 +57,7 @@ spec:
   selector:
     app: host-bc
     project: emptyhost-gcloud
-  type: ClusterIP
+  type: LoadBalancer
 ---
 apiVersion: v1
 kind: ServiceAccount
