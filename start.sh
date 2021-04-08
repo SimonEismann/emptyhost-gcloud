@@ -6,7 +6,7 @@ export CLUSTER_NAME=${PROJECT_ID}-1
 export MACHINE_TYPE=n1-standard-1
 
 services=(host-proxy host-a host-bc)
-LOADS=(const_10 const_20 const_30 const_40 const_50 const_60 const_70 training)
+declare -a LOADS=("const_10" "const_20" "const_30" "const_40" "const_50" "const_60" "const_70" "training")
 
 # setup nodes
 gcloud container clusters create $CLUSTER_NAME --min-nodes=${#services[@]} --max-nodes=${#services[@]} --num-nodes=${#services[@]} --zone $ZONE --machine-type=${MACHINE_TYPE} --no-enable-autoupgrade
@@ -41,7 +41,7 @@ echo "BC_ADDR: ${BC_ADDR}"
 echo "IP STRING: ${IP_STRING}"
 
 # execute measurements for all loads
-for LOAD in ${LOADS}
+for LOAD in "${LOADS[@]}"
 do
 	echo "starting loadgenerator for load ${LOAD}."
 	java -jar httploadgenerator.jar loadgenerator & java -cp load.jar:httploadgenerator.jar tools.descartes.dlim.httploadgenerator.runner.Main director --ip localhost --load loads/${LOAD}.csv -o scenario_logs/${LOAD}.csv --lua load.lua -t 256 -p="${IP_STRING::${#IP_STRING}-1}" -c measurment.ProcListener
