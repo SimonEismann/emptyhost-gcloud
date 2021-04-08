@@ -3,7 +3,7 @@
 export PROJECT_ID=`gcloud config get-value project`
 export ZONE=us-central1-a
 export CLUSTER_NAME=${PROJECT_ID}-1
-export MACHINE_TYPE=n1-standard-1
+export MACHINE_TYPE=n1-standard-2
 
 services=(host-proxy host-a host-bc)
 declare -a LOADS=("const_10" "const_20" "const_30" "const_40" "const_50" "const_60" "const_70" "training")
