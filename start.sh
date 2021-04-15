@@ -6,7 +6,7 @@ export CLUSTER_NAME=${PROJECT_ID}-1
 export MACHINE_TYPE=n1-standard-2
 
 services=(host-proxy host-a host-bc)
-declare -a LOADS=("const_10" "const_20" "const_30" "const_40" "const_50" "const_60" "const_70" "training")
+declare -a LOADS=("const_10" "const_20" "const_30" "const_40" "training")
 
 # setup nodes
 gcloud container clusters create $CLUSTER_NAME --min-nodes=${#services[@]} --max-nodes=${#services[@]} --num-nodes=${#services[@]} --zone $ZONE --machine-type=${MACHINE_TYPE} --no-enable-autoupgrade
@@ -61,3 +61,12 @@ done
 cp load_backup.lua load.lua
 rm -f load_backup.lua
 gcloud container clusters delete $CLUSTER_NAME --zone=$ZONE --quiet
+
+python3 eval_parse_component_logs.py
+# python2 eval_generate_mars_model.py
+COMPONENTS=(A B C)
+for c in "${COMPONENTS[@]}"
+do
+	java -jar modelgen_weka.jar M5P logs/training/${c}_trainingdata.csv logs/training/${c}_M5P.model
+done
+# python3 eval_generate_latex.py
