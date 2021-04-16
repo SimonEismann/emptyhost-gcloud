@@ -4,7 +4,7 @@ import csv
 
 path = "logs/"
 filenames = ["A", "B", "C"]
-runs = ["const_10", "const_20", "const_30", "const_40", "const_50", "const_60", "const_70", "training"]
+runs = ["const_10", "const_20", "const_30", "const_40", "training"]
 for run in runs:
     for file in filenames:
         scenario = path + run

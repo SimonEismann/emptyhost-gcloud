@@ -1,0 +1,84 @@
+\begin{table}[h]
+\centering
+\begin{tabular}{c|ccc|cc}
+\hline
+Load & \multicolumn{3}{c|}{Measured / Predicted Responsetime [ms]} & \multicolumn{2}{c}{Measured / Predicted Utilization}  \\
+{[}Req/s] & A              & B              & C                         & VM1          & VM2  \\
+\hline
+10 & 75.5 / 72.3 & 16.8 / 15.8 & 26.5 / 25.7 & 0.22 / 0.15 & 0.24 / 0.20 \\
+20 & 77.1 / 80.1 & 17.7 / 18.8 & 27.1 / 28.3 & 0.37 / 0.30 & 0.43 / 0.40 \\
+30 & 87.1 / 98.7 & 22.1 / 26.0 & 30.9 / 35.1 & 0.5 / 0.45 & 0.62 / 0.60 \\
+40 & 126.2 / 153.7 & 39.3 / 49.1 & 46.6 / 57.7 & 0.64 / 0.60 & 0.81 / 0.80 \\
+\hline
+\end{tabular}
+\caption{Comparison of measured results and DML simulation results}
+\end{table}
+MARS:
+\begin{table}[h]
+\centering
+\begin{tabular}{l|ccc|cc}
+\hline
+Statistical & \multicolumn{3}{c|}{Responsetime {[ms]}} & \multicolumn{2}{c}{Utilization} \\
+Model & A & B & C & VM1 & VM2  \\ \hline
+Measured & 75.5 & 16.8 & 26.5 & 0.22 & 0.24 \\
+None & 72.3 & 15.8  & 25.7  & 0.15 & 0.20 \\
+S1 & 77.0 & - & - & - & - \\
+S2 & 76.8 & 20.9 & \textcolor{red}{\textbf{25.2}} & 0.15 & \textcolor{red}{\textbf{0.12}} \\
+S3 & 74.6 & \textcolor{red}{\textbf{15.1}} & 28.8 & 0.15 & \textcolor{red}{\textbf{0.08}} \\
+S2 + S3 & 79.9 & 15.1 & 28.8 & 0.15 & - \\\hline
+Measured & 77.1 & 17.7 & 27.1 & 0.37 & 0.43 \\
+None & 80.1 & 18.8  & 28.3  & 0.30 & 0.40 \\
+S1 & 84.4 & - & - & - & - \\
+S2 & 82.4 & 23.5 & \textcolor{red}{\textbf{26.0}} & 0.30 & \textcolor{red}{\textbf{0.25}} \\
+S3 & 80.0 & \textcolor{red}{\textbf{15.3}} & 31.7 & 0.30 & \textcolor{red}{\textbf{0.15}} \\
+S2 + S3 & 86.6 & 15.3 & 31.7 & 0.30 & - \\\hline
+Measured & 87.1 & 22.1 & 30.9 & 0.5 & 0.62 \\
+None & 98.7 & 26.0  & 35.1  & 0.45 & 0.60 \\
+S1 & 98.6 & - & - & - & - \\
+S2 & 92.2 & 27.1 & \textcolor{red}{\textbf{27.5}} & 0.45 & \textcolor{red}{\textbf{0.38}} \\
+S3 & 90.0 & \textcolor{red}{\textbf{15.8}} & 36.6 & 0.45 & \textcolor{red}{\textbf{0.22}} \\
+S2 + S3 & 98.0 & 15.8 & 36.6 & 0.45 & - \\\hline
+Measured & 126.2 & 39.3 & 46.6 & 0.64 & 0.81 \\
+None & 153.7 & 49.1  & 57.7  & 0.60 & 0.80 \\
+S1 & 130.6 & - & - & - & - \\
+S2 & 109.5 & 32.2 & \textcolor{red}{\textbf{30.3}} & 0.60 & \textcolor{red}{\textbf{0.50}} \\
+S3 & 105.1 & \textcolor{red}{\textbf{16.5}} & 41.6 & 0.60 & \textcolor{red}{\textbf{0.30}} \\
+S2 + S3 & 115.6 & 16.5 & 41.6 & 0.60 & - \\\hline
+\end{tabular}
+\caption{Empty Host problem in red for all loads.}
+\label{Emptyhostresults}
+\end{table}WEKA:
+\begin{table}[h]
+\centering
+\begin{tabular}{l|ccc|cc}
+\hline
+Statistical & \multicolumn{3}{c|}{Responsetime {[ms]}} & \multicolumn{2}{c}{Utilization} \\
+Model & A & B & C & VM1 & VM2  \\ \hline
+Measured & 75.5 & 16.8 & 26.5 & 0.22 & 0.24 \\
+None & 72.3 & 15.8  & 25.7  & 0.15 & 0.20 \\
+S1 & 76.9 & - & - & - & - \\
+S2 & 76.7 & 20.8 & \textcolor{red}{\textbf{25.2}} & 0.15 & \textcolor{red}{\textbf{0.13}} \\
+S3 & 74.5 & \textcolor{red}{\textbf{15.1}} & 28.7 & 0.15 & \textcolor{red}{\textbf{0.08}} \\
+S2 + S3 & 79.9 & 15.1 & 28.7 & 0.15 & - \\\hline
+Measured & 77.1 & 17.7 & 27.1 & 0.37 & 0.43 \\
+None & 80.1 & 18.8  & 28.3  & 0.30 & 0.40 \\
+S1 & 83.9 & - & - & - & - \\
+S2 & 82.3 & 23.3 & \textcolor{red}{\textbf{26.0}} & 0.30 & \textcolor{red}{\textbf{0.25}} \\
+S3 & 79.6 & \textcolor{red}{\textbf{15.4}} & 31.3 & 0.30 & \textcolor{red}{\textbf{0.15}} \\
+S2 + S3 & 86.4 & 15.4 & 31.3 & 0.30 & - \\\hline
+Measured & 87.1 & 22.1 & 30.9 & 0.5 & 0.62 \\
+None & 98.7 & 26.0  & 35.1  & 0.45 & 0.60 \\
+S1 & 95.7 & - & - & - & - \\
+S2 & 91.7 & 26.5 & \textcolor{red}{\textbf{27.6}} & 0.45 & \textcolor{red}{\textbf{0.38}} \\
+S3 & 88.3 & \textcolor{red}{\textbf{15.8}} & 34.9 & 0.45 & \textcolor{red}{\textbf{0.22}} \\
+S2 + S3 & 97.2 & 15.8 & 34.9 & 0.45 & - \\\hline
+Measured & 126.2 & 39.3 & 46.6 & 0.64 & 0.81 \\
+None & 153.7 & 49.1  & 57.7  & 0.60 & 0.80 \\
+S1 & 109.9 & - & - & - & - \\
+S2 & 108.2 & 30.6 & \textcolor{red}{\textbf{30.7}} & 0.60 & \textcolor{red}{\textbf{0.50}} \\
+S3 & 102.4 & \textcolor{red}{\textbf{16.5}} & 39.1 & 0.60 & \textcolor{red}{\textbf{0.30}} \\
+S2 + S3 & 115.2 & 16.5 & 39.1 & 0.60 & - \\\hline
+\end{tabular}
+\caption{Empty Host problem in red for all loads.}
+\label{Emptyhostresults}
+\end{table}
